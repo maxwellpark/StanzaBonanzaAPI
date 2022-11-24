@@ -17,6 +17,22 @@ public class PoemsController : ControllerBase
     }
 
     [HttpGet]
+    [Route("{id?}")]
+    public async Task<IActionResult> GetPoemByIdAsync(int id)
+    {
+        try
+        {
+            var poem = await _poemRepository.GetByIdAsync(id);
+            return Ok(poem);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while getting poems");
+            return BadRequest(ex);
+        }
+    }
+
+    [HttpGet]
     public async Task<IActionResult> GetPoemsAsync()
     {
         try

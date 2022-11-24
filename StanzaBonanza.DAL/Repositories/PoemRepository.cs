@@ -13,6 +13,11 @@ namespace StanzaBonanza.DataAccess.Repositories
             _db = db;
         }
 
+        public async Task<Poem> GetByIdAsync(int id)
+        {
+            return await _db.Poems.FindAsync(id);
+        }
+
         public async Task<IEnumerable<Poem>> GetAllAsync()
         {
             return await _db.Poems.ToListAsync();
