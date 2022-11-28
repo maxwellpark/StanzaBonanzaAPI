@@ -5,6 +5,7 @@ namespace StanzaBonanza.Models
 {
     public class Author
     {
+        [Required]
         [Key]
         public int Id { get; set; }
 

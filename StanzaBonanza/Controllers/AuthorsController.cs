@@ -1,19 +1,19 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using StanzaBonanza.DataAccess.Repositories;
 
 namespace StanzaBonanza.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PoemsController : ControllerBase
+public class AuthorsController : ControllerBase
 {
-    private readonly ILogger<PoemsController> _logger;
-    private readonly IPoemRepository _poemRepository;
+    private readonly ILogger<AuthorsController> _logger;
+    private readonly IAuthorRepository _authorRepository;
 
-    public PoemsController(ILogger<PoemsController> logger, IPoemRepository poemRepository)
+    public AuthorsController(ILogger<AuthorsController> logger, IAuthorRepository authorRepository)
     {
         _logger = logger;
-        _poemRepository = poemRepository ?? throw new ArgumentNullException(nameof(poemRepository));
+        _authorRepository = authorRepository ?? throw new ArgumentNullException(nameof(authorRepository));
     }
 
     [HttpGet]
@@ -22,7 +22,7 @@ public class PoemsController : ControllerBase
     {
         try
         {
-            var poem = await _poemRepository.GetByIdAsync(id);
+            var poem = await _authorRepository.GetByIdAsync(id);
             return Ok(poem);
         }
         catch (Exception ex)
@@ -37,7 +37,7 @@ public class PoemsController : ControllerBase
     {
         try
         {
-            var poems = await _poemRepository.GetAllAsync();
+            var poems = await _authorRepository.GetAllAsync();
             return Ok(poems);
         }
         catch (Exception ex)

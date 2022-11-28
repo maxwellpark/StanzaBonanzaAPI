@@ -4,23 +4,23 @@ using StanzaBonanza.Models;
 
 namespace StanzaBonanza.DataAccess.Repositories
 {
-    public class PoemRepository : IPoemRepository
+    public class AuthorRepository : IAuthorRepository
     {
         private readonly ApplicationDbContext _db;
 
-        public PoemRepository(ApplicationDbContext db)
+        public AuthorRepository(ApplicationDbContext db)
         {
             _db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
-        public async Task<Poem> GetByIdAsync(int id)
+        public async Task<Author> GetByIdAsync(int id)
         {
-            return await _db.Poems.FindAsync(id);
+            return await _db.Authors.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Poem>> GetAllAsync()
+        public async Task<IEnumerable<Author>> GetAllAsync()
         {
-            return await _db.Poems.ToListAsync();
+            return await _db.Authors.ToListAsync();
         }
     }
 }
