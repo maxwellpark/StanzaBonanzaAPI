@@ -10,11 +10,13 @@ public class PoemsController : ControllerBase
 {
     private readonly ILogger<PoemsController> _logger;
     private readonly IPoemRepository _poemRepository;
+    private readonly IAuthorPoemJoinService _authorPoemJoinService;
 
-    public PoemsController(ILogger<PoemsController> logger, IPoemRepository poemRepository)
+    public PoemsController(ILogger<PoemsController> logger, IPoemRepository poemRepository, IAuthorPoemJoinService authorPoemJoinService)
     {
         _logger = logger;
         _poemRepository = poemRepository ?? throw new ArgumentNullException(nameof(poemRepository));
+        _authorPoemJoinService = authorPoemJoinService ?? throw new ArgumentNullException(nameof(authorPoemJoinService));
     }
 
     [HttpGet]
@@ -29,7 +31,10 @@ public class PoemsController : ControllerBase
             if (poem == null)
                 throw new NullReferenceException($"Poem object returned by {nameof(_poemRepository.GetByIdAsync)} method was null.");
 
-            var poemViewModel = new PoemViewModel(poem);
+            var authorPoemJoins = await _authorPoemJoinService.GetAuthorPoemJoinAsync();
+            var join = authorPoemJoins?.FirstOrDefault(join => join.Poem?.Id == id);
+
+            var poemViewModel = new PoemViewModel(join);
             return Ok(poemViewModel);
         }
         catch (Exception ex)

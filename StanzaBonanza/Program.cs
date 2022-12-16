@@ -10,6 +10,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 
 builder.Services.AddScoped<IPoemRepository, PoemRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IAuthorPoemJoinService, AuthorPoemJoinService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
