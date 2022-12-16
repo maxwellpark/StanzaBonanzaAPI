@@ -26,15 +26,14 @@ public class PoemsController : ControllerBase
         try
         {
             _logger.LogInformation("Request received for poem by ID " + id);
-            var poem = await _poemRepository.GetByIdAsync(id);
-
-            if (poem == null)
-                throw new NullReferenceException($"Poem object returned by {nameof(_poemRepository.GetByIdAsync)} method was null.");
 
             var authorPoemJoins = await _authorPoemJoinService.GetAuthorPoemJoinAsync();
-            var join = authorPoemJoins?.FirstOrDefault(join => join.Poem?.Id == id);
+            var targetJoin = authorPoemJoins?.FirstOrDefault(join => join?.Poem?.Id == id);
 
-            var poemViewModel = new PoemViewModel(join);
+            if (targetJoin == null)
+                return new BadRequestObjectResult("Poem not found");
+
+            var poemViewModel = new PoemViewModel(targetJoin);
             return Ok(poemViewModel);
         }
         catch (Exception ex)
@@ -49,9 +48,16 @@ public class PoemsController : ControllerBase
     {
         try
         {
-            var poems = await _poemRepository.GetAllAsync();
-            return Ok(poems);
-        }
+            _logger.LogInformation("Request received for poems");
+
+            var authorPoemJoins = await _authorPoemJoinService.GetAuthorPoemJoinAsync();
+
+            if (authorPoemJoins == null)
+                throw new NullReferenceException("Author-poem join result was null");
+
+            var poemsViewModel = new PoemsViewModel(authorPoemJoins);
+            return Ok(poemsViewModel);
+        }   
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while getting poems");
