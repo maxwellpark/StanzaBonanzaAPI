@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StanzaBonanza.DataAccess.DbContexts;
-using StanzaBonanza.Models;
+using StanzaBonanza.Models.Models;
 
 namespace StanzaBonanza.DataAccess.Repositories
 {

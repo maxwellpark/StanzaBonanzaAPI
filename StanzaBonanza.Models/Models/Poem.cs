@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace StanzaBonanza.Models
+namespace StanzaBonanza.Models.Models
 {
     public class Poem
     {
