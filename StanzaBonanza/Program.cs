@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StanzaBonanza.DataAccess.DbContexts;
 using StanzaBonanza.DataAccess.Repositories;
+using StanzaBonanza.DataAccess.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

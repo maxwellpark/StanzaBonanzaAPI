@@ -17,4 +17,6 @@ public class Author
     [DataType(DataType.Date)]
     [Column(TypeName = "Date")]
     public DateTime RegisteredDate { get; set; }
+
+    public ICollection<Poem> Poems { get; set; }
 }

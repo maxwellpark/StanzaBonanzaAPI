@@ -1,6 +1,6 @@
 ﻿using StanzaBonanza.Models.Models;
 
-namespace StanzaBonanza.Services.Interfaces
+namespace StanzaBonanza.DataAccess.Repositories.Interfaces
 {
     public interface IAuthorPoemJoinService
     {

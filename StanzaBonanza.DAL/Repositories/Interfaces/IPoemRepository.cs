@@ -1,6 +1,6 @@
 ﻿using StanzaBonanza.Models.Models;
 
-namespace StanzaBonanza.DataAccess.Repositories
+namespace StanzaBonanza.DataAccess.Repositories.Interfaces
 {
     public interface IPoemRepository
     {

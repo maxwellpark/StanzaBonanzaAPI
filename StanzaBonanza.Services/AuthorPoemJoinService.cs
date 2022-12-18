@@ -1,4 +1,4 @@
-﻿using StanzaBonanza.DataAccess.Repositories;
+﻿using StanzaBonanza.DataAccess.Repositories.Interfaces;
 using StanzaBonanza.Models.Models;
 
 namespace StanzaBonanza.Services
@@ -15,12 +15,12 @@ namespace StanzaBonanza.Services
             _poemRepository = poemRepository ?? throw new ArgumentNullException(nameof(poemRepository));
         }
 
-        public async Task<IEnumerable<AuthorPoemJoin>> GetAuthorPoemJoinAsync()
+        public async Task<IEnumerable<AuthorPoemJoin>> GetAuthorPoemsJoinAsync()
         {
             var authors = await _authorRepository.GetAllAsync();
             var poems = await _poemRepository.GetAllAsync();
 
-            var join = authors?.Join(poems, author => author?.Id, poem => poem?.AuthorId, (author, poem) => new AuthorPoemJoin
+            var join = authors?.Join(poems, author => author?.Id, poem => poem?.AuthorCreatorId, (author, poem) => new AuthorPoemJoin
             {
                 Author = author,
                 Poem = poem

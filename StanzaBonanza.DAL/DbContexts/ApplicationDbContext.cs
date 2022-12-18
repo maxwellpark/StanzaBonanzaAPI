@@ -11,9 +11,18 @@ namespace StanzaBonanza.DataAccess.DbContexts
 
         public DbSet<Poem> Poems { get; set; }
         public DbSet<Author> Authors { get; set; }
+        //public DbSet<AuthorPoemJunction> AuthorPoemJunctions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //// Define junction
+            //modelBuilder.Entity<AuthorPoemJunction>()
+            //    .HasKey(junc => new { junc.AuthorId, junc.PoemId }); // Two PKs
+
+            //modelBuilder.Entity<AuthorPoemJunction>()
+            //    .HasOne(junc => junc.Author)
+            //    .WithMany(auth => auth.)
+
             // Seed Authors
             modelBuilder.Entity<Author>().HasData(
                 new Author
@@ -36,7 +45,7 @@ namespace StanzaBonanza.DataAccess.DbContexts
                 new Poem
                 {
                     Id = 1,
-                    AuthorId = 1,
+                    AuthorCreatorId = 1,
                     Title = "Foo",
                     Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 }
@@ -45,7 +54,7 @@ namespace StanzaBonanza.DataAccess.DbContexts
                 new Poem
                 {
                     Id = 2,
-                    AuthorId = 2,
+                    AuthorCreatorId = 2,
                     Title = "Bar",
                     Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac laoreet mauris. Aliquam erat volutpat.",
                 }
@@ -54,7 +63,7 @@ namespace StanzaBonanza.DataAccess.DbContexts
                 new Poem
                 {
                     Id = 3,
-                    AuthorId = 2,
+                    AuthorCreatorId = 2,
                     Title = "Baz",
                     Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac laoreet mauris. Aliquam erat volutpat. Duis id metus enim. Aenean scelerisque eros nibh",
                 }

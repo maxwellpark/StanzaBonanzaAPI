@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StanzaBonanza.DataAccess.Repositories;
+using StanzaBonanza.DataAccess.Repositories.Interfaces;
 
 namespace StanzaBonanza.API.Controllers;
 
