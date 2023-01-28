@@ -2,8 +2,8 @@
 
 namespace StanzaBonanza.DataAccess.Repositories.Interfaces
 {
-    public interface IAuthorPoemJoinService
+    public interface IPoem_AuthorRepository
     {
-        Task<IEnumerable<AuthorPoemJoin>> GetAuthorPoemsJoinAsync();
+        Task<IEnumerable<Poem_Author>> GetAllAsync();
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StanzaBonanza.DataAccess.Repositories.Interfaces;
 using StanzaBonanza.Models.ViewModels;
+using StanzaBonanza.Services.Interfaces;
 
 namespace StanzaBonanza.API.Controllers;
 
@@ -30,12 +31,12 @@ public class PoemsController : ControllerBase
             if (authorPoemsJoins == null)
                 throw new NullReferenceException("Author-poem join result was null");
 
-            var targetJoin = authorPoemsJoins?.FirstOrDefault(join => join?.Poem?.Id == id);
+            var targetResult = authorPoemsJoins?.FirstOrDefault(join => join?.Poem?.PoemId == id);
 
-            if (targetJoin == null)
+            if (targetResult == null)
                 return new BadRequestObjectResult("Poem not found by ID " + id);
 
-            var poemViewModel = new PoemViewModel(targetJoin);
+            var poemViewModel = new PoemViewModel(targetResult);
             return Ok(poemViewModel);
         }
         catch (Exception ex)

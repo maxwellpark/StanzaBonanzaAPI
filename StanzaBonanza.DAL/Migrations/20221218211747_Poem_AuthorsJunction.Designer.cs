@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StanzaBonanza.DataAccess.DbContexts;
 
@@ -11,9 +12,11 @@ using StanzaBonanza.DataAccess.DbContexts;
 namespace StanzaBonanza.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221218211747_Poem_AuthorsJunction")]
+    partial class PoemAuthorsJunction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +27,11 @@ namespace StanzaBonanza.DataAccess.Migrations
 
             modelBuilder.Entity("StanzaBonanza.Models.Models.Author", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AuthorId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -38,20 +41,20 @@ namespace StanzaBonanza.DataAccess.Migrations
                     b.Property<DateTime>("RegisteredDate")
                         .HasColumnType("Date");
 
-                    b.HasKey("AuthorId");
+                    b.HasKey("Id");
 
                     b.ToTable("Authors");
 
                     b.HasData(
                         new
                         {
-                            AuthorId = 1,
+                            Id = 1,
                             Name = "Amy",
                             RegisteredDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
-                            AuthorId = 2,
+                            Id = 2,
                             Name = "Bella",
                             RegisteredDate = new DateTime(2022, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -59,11 +62,11 @@ namespace StanzaBonanza.DataAccess.Migrations
 
             modelBuilder.Entity("StanzaBonanza.Models.Models.Poem", b =>
                 {
-                    b.Property<int>("PoemId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PoemId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AuthorCreatorId")
                         .HasColumnType("int");
@@ -80,14 +83,14 @@ namespace StanzaBonanza.DataAccess.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("PoemId");
+                    b.HasKey("Id");
 
                     b.ToTable("Poems");
 
                     b.HasData(
                         new
                         {
-                            PoemId = 1,
+                            Id = 1,
                             AuthorCreatorId = 1,
                             Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -95,7 +98,7 @@ namespace StanzaBonanza.DataAccess.Migrations
                         },
                         new
                         {
-                            PoemId = 2,
+                            Id = 2,
                             AuthorCreatorId = 2,
                             Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac laoreet mauris. Aliquam erat volutpat.",
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -103,7 +106,7 @@ namespace StanzaBonanza.DataAccess.Migrations
                         },
                         new
                         {
-                            PoemId = 3,
+                            Id = 3,
                             AuthorCreatorId = 2,
                             Body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac laoreet mauris. Aliquam erat volutpat. Duis id metus enim. Aenean scelerisque eros nibh",
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -113,11 +116,11 @@ namespace StanzaBonanza.DataAccess.Migrations
 
             modelBuilder.Entity("StanzaBonanza.Models.Models.Poem_Author", b =>
                 {
-                    b.Property<int>("Poem_AuthorId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Poem_AuthorId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
@@ -125,45 +128,13 @@ namespace StanzaBonanza.DataAccess.Migrations
                     b.Property<int>("PoemId")
                         .HasColumnType("int");
 
-                    b.HasKey("Poem_AuthorId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("PoemId");
 
-                    b.ToTable("Poems_Authors");
-
-                    b.HasData(
-                        new
-                        {
-                            PoemAuthorId = 1,
-                            AuthorId = 1,
-                            PoemId = 1
-                        },
-                        new
-                        {
-                            PoemAuthorId = 2,
-                            AuthorId = 2,
-                            PoemId = 1
-                        },
-                        new
-                        {
-                            PoemAuthorId = 3,
-                            AuthorId = 2,
-                            PoemId = 2
-                        },
-                        new
-                        {
-                            PoemAuthorId = 4,
-                            AuthorId = 1,
-                            PoemId = 3
-                        },
-                        new
-                        {
-                            PoemAuthorId = 5,
-                            AuthorId = 2,
-                            PoemId = 3
-                        });
+                    b.ToTable("Poem_Authors");
                 });
 
             modelBuilder.Entity("StanzaBonanza.Models.Models.Poem_Author", b =>

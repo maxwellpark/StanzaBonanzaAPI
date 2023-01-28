@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StanzaBonanza.DataAccess.DbContexts;
 
@@ -11,9 +12,11 @@ using StanzaBonanza.DataAccess.DbContexts;
 namespace StanzaBonanza.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221218225830_TableAndColRename")]
+    partial class TableAndColRename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,11 +116,11 @@ namespace StanzaBonanza.DataAccess.Migrations
 
             modelBuilder.Entity("StanzaBonanza.Models.Models.Poem_Author", b =>
                 {
-                    b.Property<int>("Poem_AuthorId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Poem_AuthorId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
@@ -125,7 +128,7 @@ namespace StanzaBonanza.DataAccess.Migrations
                     b.Property<int>("PoemId")
                         .HasColumnType("int");
 
-                    b.HasKey("Poem_AuthorId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
@@ -136,31 +139,31 @@ namespace StanzaBonanza.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            PoemAuthorId = 1,
+                            Id = 1,
                             AuthorId = 1,
                             PoemId = 1
                         },
                         new
                         {
-                            PoemAuthorId = 2,
+                            Id = 2,
                             AuthorId = 2,
                             PoemId = 1
                         },
                         new
                         {
-                            PoemAuthorId = 3,
+                            Id = 3,
                             AuthorId = 2,
                             PoemId = 2
                         },
                         new
                         {
-                            PoemAuthorId = 4,
+                            Id = 4,
                             AuthorId = 1,
                             PoemId = 3
                         },
                         new
                         {
-                            PoemAuthorId = 5,
+                            Id = 5,
                             AuthorId = 2,
                             PoemId = 3
                         });

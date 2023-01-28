@@ -7,7 +7,7 @@ public class Author
 {
     [Required]
     [Key]
-    public int Id { get; set; }
+    public int AuthorId { get; set; }
 
     [Required]
     [MaxLength(64)]
@@ -18,5 +18,6 @@ public class Author
     [Column(TypeName = "Date")]
     public DateTime RegisteredDate { get; set; }
 
-    public ICollection<Poem> Poems { get; set; }
+    // Navigation
+    public List<Poem_Author> Poem_Authors { get; set; }
 }

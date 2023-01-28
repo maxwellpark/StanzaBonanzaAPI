@@ -1,4 +1,5 @@
 ﻿using StanzaBonanza.Models.Models;
+using StanzaBonanza.Models.Results;
 
 namespace StanzaBonanza.Models.ViewModels;
 
@@ -22,7 +23,7 @@ public class PoemViewModel
         CharacterCount = Body != null ? Body.Length : 0;
     }
 
-    public PoemViewModel(AuthorPoemJoin authorPoemJoin) : this(authorPoemJoin?.Poem)
+    public PoemViewModel(AuthorPoemJoinResult authorPoemJoin) : this(authorPoemJoin?.Poem)
     {
         AuthorName = authorPoemJoin?.Author?.Name;
     }

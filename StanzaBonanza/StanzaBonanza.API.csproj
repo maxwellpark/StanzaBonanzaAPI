@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StanzaBonanza.DAL\StanzaBonanza.DataAccess.csproj" />
+    <ProjectReference Include="..\StanzaBonanza.Services\StanzaBonanza.Services.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/band-manifest.json" /></VisualStudio></ProjectExtensions>

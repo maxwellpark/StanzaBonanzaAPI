@@ -6,7 +6,7 @@ namespace StanzaBonanza.Models.ViewModels
     {
         public IEnumerable<PoemViewModel> Poems { get; set; }
 
-        public PoemsViewModel(IEnumerable<AuthorPoemJoin> authorPoemJoins)
+        public PoemsViewModel(IEnumerable<AuthorPoemJoinResult> authorPoemJoins)
         {
             Poems = authorPoemJoins?.Select(join => new PoemViewModel(join));
         }

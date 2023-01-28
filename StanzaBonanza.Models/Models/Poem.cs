@@ -7,11 +7,7 @@ public class Poem
 {
     [Required]
     [Key]
-    public int Id { get; set; }
-
-    [Required]
-    [ForeignKey("Author")]
-    public int AuthorCreatorId { get; set; }
+    public int PoemId { get; set; }
 
     [Required]
     [MaxLength(255)]
@@ -25,5 +21,10 @@ public class Poem
     [Column(TypeName = "Date")]
     public DateTime CreatedDate { get; set; }
 
-    public ICollection<Author> Authors { get; set; }
+    // Navigation
+    [Required]
+    [ForeignKey("Author")]
+    public int AuthorCreatorId { get; set; }
+
+    public List<Poem_Author> Poem_Authors { get; set; }
 }
