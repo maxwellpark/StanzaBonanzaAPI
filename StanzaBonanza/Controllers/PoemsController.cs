@@ -10,9 +10,9 @@ namespace StanzaBonanza.API.Controllers;
 public class PoemsController : ControllerBase
 {
     private readonly ILogger<PoemsController> _logger;
-    private readonly IAuthorPoemJoinService _authorPoemJoinService;
+    private readonly IPoemAuthorJoinService _authorPoemJoinService;
 
-    public PoemsController(ILogger<PoemsController> logger, IPoemRepository poemRepository, IAuthorPoemJoinService authorPoemJoinService)
+    public PoemsController(ILogger<PoemsController> logger, IPoemRepository poemRepository, IPoemAuthorJoinService authorPoemJoinService)
     {
         _logger = logger;
         _authorPoemJoinService = authorPoemJoinService ?? throw new ArgumentNullException(nameof(authorPoemJoinService));
@@ -26,7 +26,7 @@ public class PoemsController : ControllerBase
         {
             _logger.LogInformation("Request received for poem by ID " + id);
 
-            var authorPoemsJoins = await _authorPoemJoinService.GetAuthorPoemsJoinAsync();
+            var authorPoemsJoins = await _authorPoemJoinService.GetPoems_AuthorsJoinAsync();
 
             if (authorPoemsJoins == null)
                 throw new NullReferenceException("Author-poem join result was null");
@@ -53,7 +53,7 @@ public class PoemsController : ControllerBase
         {
             _logger.LogInformation("Request received for poems");
 
-            var authorPoemsJoins = await _authorPoemJoinService.GetAuthorPoemsJoinAsync();
+            var authorPoemsJoins = await _authorPoemJoinService.GetPoems_AuthorsJoinAsync();
 
             if (authorPoemsJoins == null)
                 throw new NullReferenceException("Author-poem join result was null");

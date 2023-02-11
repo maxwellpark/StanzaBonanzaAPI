@@ -8,16 +8,16 @@ namespace StanzaBonanza.API.Controllers
     public class Poem_AuthorsController : ControllerBase
     {
         private readonly ILogger<Poem_AuthorsController> _logger;
-        private readonly IAuthorPoemJoinService _authorPoemJoinService;
+        private readonly IPoemAuthorJoinService _authorPoemJoinService;
 
-        public Poem_AuthorsController(ILogger<Poem_AuthorsController> logger, IAuthorPoemJoinService authorPoemJoinService)
+        public Poem_AuthorsController(ILogger<Poem_AuthorsController> logger, IPoemAuthorJoinService authorPoemJoinService)
         {
             _logger = logger;
             _authorPoemJoinService = authorPoemJoinService ?? throw new ArgumentNullException(nameof(authorPoemJoinService));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPoemsAsync()
+        public async Task<IActionResult> GetPoem_AuthorsAsync()
         {
             try
             {

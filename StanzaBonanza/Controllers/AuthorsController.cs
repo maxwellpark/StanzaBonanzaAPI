@@ -18,7 +18,7 @@ public class AuthorsController : ControllerBase
 
     [HttpGet]
     [Route("{id?}")]
-    public async Task<IActionResult> GetPoemByIdAsync(int id)
+    public async Task<IActionResult> GetAuthorByIdAsync(int id)
     {
         try
         {
@@ -33,7 +33,7 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetPoemsAsync()
+    public async Task<IActionResult> GetAuthorsAsync()
     {
         try
         {

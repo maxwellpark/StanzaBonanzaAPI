@@ -3,9 +3,9 @@ using StanzaBonanza.Models.ResultSets;
 
 namespace StanzaBonanza.Services.Interfaces
 {
-    public interface IAuthorPoemJoinService
+    public interface IPoemAuthorJoinService
     {
-        Task<IEnumerable<AuthorPoemJoinResult>> GetAuthorPoemsJoinAsync();
+        Task<IEnumerable<AuthorPoemJoinResult>> GetPoems_AuthorsJoinAsync();
         Task<Poems_AuthorsJoinResultSet> GetPoems_AuthorsJoinResultSet();
     }
 }

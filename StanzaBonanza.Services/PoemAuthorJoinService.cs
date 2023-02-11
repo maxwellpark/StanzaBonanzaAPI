@@ -6,20 +6,20 @@ using StanzaBonanza.Services.Interfaces;
 
 namespace StanzaBonanza.Services
 {
-    public class AuthorPoemJoinService : IAuthorPoemJoinService
+    public class PoemAuthorJoinService : IPoemAuthorJoinService
     {
         private readonly IAuthorRepository _authorRepository;
         private readonly IPoemRepository _poemRepository;
         private readonly IPoem_AuthorRepository _poem_authorRepository;
 
-        public AuthorPoemJoinService(IAuthorRepository authorRepository, IPoemRepository poemRepository, IPoem_AuthorRepository poem_authorRepository)
+        public PoemAuthorJoinService(IAuthorRepository authorRepository, IPoemRepository poemRepository, IPoem_AuthorRepository poem_authorRepository)
         {
             _authorRepository = authorRepository ?? throw new ArgumentNullException(nameof(authorRepository));
             _poemRepository = poemRepository ?? throw new ArgumentNullException(nameof(poemRepository));
             _poem_authorRepository = poem_authorRepository ?? throw new ArgumentNullException(nameof(poem_authorRepository));
         }
 
-        public async Task<IEnumerable<AuthorPoemJoinResult>> GetAuthorPoemsJoinAsync()
+        public async Task<IEnumerable<AuthorPoemJoinResult>> GetPoems_AuthorsJoinAsync()
         {
             var authors = await _authorRepository.GetAllAsync();
             var poems = await _poemRepository.GetAllAsync();

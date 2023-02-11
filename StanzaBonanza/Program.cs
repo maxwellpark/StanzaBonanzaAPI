@@ -16,7 +16,7 @@ builder.Services.AddScoped<IPoemRepository, PoemRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IPoem_AuthorRepository, Poem_AuthorRepository>();
 
-builder.Services.AddScoped<IAuthorPoemJoinService, AuthorPoemJoinService>();
+builder.Services.AddScoped<IPoemAuthorJoinService, PoemAuthorJoinService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(config => config.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
