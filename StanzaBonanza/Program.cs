@@ -4,6 +4,7 @@ using StanzaBonanza.DataAccess.Repositories;
 using StanzaBonanza.DataAccess.Repositories.Interfaces;
 using StanzaBonanza.Services;
 using StanzaBonanza.Services.Interfaces;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +15,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 builder.Services.AddScoped<IPoemRepository, PoemRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IPoem_AuthorRepository, Poem_AuthorRepository>();
+
 builder.Services.AddScoped<IAuthorPoemJoinService, AuthorPoemJoinService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(config => config.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

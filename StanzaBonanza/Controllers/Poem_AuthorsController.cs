@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using StanzaBonanza.DataAccess.Repositories.Interfaces;
-using StanzaBonanza.Models.ViewModels;
+﻿using Microsoft.AspNetCore.Mvc;
+using StanzaBonanza.Services.Interfaces;
 
 namespace StanzaBonanza.API.Controllers
 {
@@ -10,12 +8,12 @@ namespace StanzaBonanza.API.Controllers
     public class Poem_AuthorsController : ControllerBase
     {
         private readonly ILogger<Poem_AuthorsController> _logger;
-        private readonly IPoem_AuthorRepository _poem_authorRepository;
+        private readonly IAuthorPoemJoinService _authorPoemJoinService;
 
-        public Poem_AuthorsController(ILogger<Poem_AuthorsController> logger, IPoem_AuthorRepository poem_authorRepository)
+        public Poem_AuthorsController(ILogger<Poem_AuthorsController> logger, IAuthorPoemJoinService authorPoemJoinService)
         {
             _logger = logger;
-            _poem_authorRepository = poem_authorRepository ?? throw new ArgumentNullException(nameof(poem_authorRepository));
+            _authorPoemJoinService = authorPoemJoinService ?? throw new ArgumentNullException(nameof(authorPoemJoinService));
         }
 
         [HttpGet]
@@ -23,8 +21,8 @@ namespace StanzaBonanza.API.Controllers
         {
             try
             {
-                var poem_authors = await _poem_authorRepository.GetAllAsync();
-                return Ok(poem_authors);
+                var poemsAuthorsJoinResultSet = await _authorPoemJoinService.GetPoems_AuthorsJoinResultSet();
+                return Ok(poemsAuthorsJoinResultSet);
             }
             catch (Exception ex)
             {

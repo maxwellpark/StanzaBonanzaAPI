@@ -1,4 +1,4 @@
-﻿using StanzaBonanza.Models.Models;
+﻿using StanzaBonanza.Models.Results;
 
 namespace StanzaBonanza.Models.ViewModels
 {

@@ -5,6 +5,6 @@ namespace StanzaBonanza.Models.Results
     public class Poems_AuthorsJoinResult
     {
         public Poem Poem { get; set; }
-        public List<Author> Authors { get; set; }
+        public IEnumerable<Author> Authors { get; set; }
     }
 }

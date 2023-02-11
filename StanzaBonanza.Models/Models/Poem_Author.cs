@@ -3,7 +3,7 @@
 namespace StanzaBonanza.Models.Models
 {
     /// <summary>
-    /// Junction table 
+    /// Junction table with naming convention TableA_TableB.
     /// </summary>
     public class Poem_Author
     {
