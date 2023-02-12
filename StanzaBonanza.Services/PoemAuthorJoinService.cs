@@ -36,6 +36,10 @@ namespace StanzaBonanza.Services
             return join;
         }
 
+        /// <summary>
+        /// Gets all <see cref="Poem"/> records and all of their <see cref="Author"/>s for each result in the <see cref="Poems_AuthorsJoinResultSet"/>.
+        /// Uses the Poems_Authors junction table.
+        /// </summary>
         public async Task<Poems_AuthorsJoinResultSet> GetPoems_AuthorsJoinResultSet()
         {
             var authors = await _authorRepository.GetAllAsync();
