@@ -17,7 +17,7 @@ namespace StanzaBonanza.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPoems_AuthorsAsync([FromHeader(Name = "X-API-Key")] string apiKeyHeader)
+        public async Task<IActionResult> GetPoems_AuthorsAsync()
         {
             try
             {

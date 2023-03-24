@@ -19,8 +19,15 @@ builder.Services.AddScoped<IPoem_AuthorRepository, Poem_AuthorRepository>();
 
 builder.Services.AddScoped<IPoemAuthorJoinService, PoemAuthorJoinService>();
 
-// Add API Key authentication via filter
-builder.Services.AddControllers(options => options.Filters.Add<ApiKeyAttribute>());
+// Add API Key authentication via filter but bypass when not in production 
+if (builder.Environment.IsProduction())
+{
+    builder.Services.AddControllers(options => options.Filters.Add<ApiKeyAttribute>());
+}
+else
+{
+    builder.Services.AddControllers();
+}
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

@@ -28,7 +28,7 @@ namespace StanzaBonanza.API.Filters
         private static string GetApiKey(HttpContext context)
         {
             var configuration = context.RequestServices.GetRequiredService<IConfiguration>();
-            return configuration.GetValue<string>($"ApiKey");
+            return configuration.GetValue<string>("ApiKey");
         }
 
         private static bool IsApiKeyValid(string apiKey, string? submittedApiKey)
