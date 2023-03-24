@@ -21,14 +21,16 @@ namespace StanzaBonanza.Services
 
         public async Task<IEnumerable<AuthorPoemJoinResult>> GetPoems_AuthorsJoinAsync()
         {
-            var authors = await _authorRepository.GetAllAsync();
-            var poems = await _poemRepository.GetAllAsync();
+            var authors = await _authorRepository.GetAllAsync().ConfigureAwait(false);
+            var poems = await _poemRepository.GetAllAsync().ConfigureAwait(false);
 
-            var join = authors?.Join(poems, author => author?.AuthorId, poem => poem?.AuthorCreatorId, (author, poem) => new AuthorPoemJoinResult
-            {
-                Author = author,
-                Poem = poem
-            })?.ToList();
+            var join = authors
+                .Join(poems, author => author?.AuthorId, poem => poem?.AuthorCreatorId, (author, poem) => new AuthorPoemJoinResult
+                {
+                    Author = author,
+                    Poem = poem
+                })
+                .ToList();
 
             if (join == null)
                 throw new NullReferenceException("Join returned null when joining Authors on Poems");
@@ -42,31 +44,27 @@ namespace StanzaBonanza.Services
         /// </summary>
         public async Task<Poems_AuthorsJoinResultSet> GetPoems_AuthorsJoinResultSet()
         {
-            var authors = await _authorRepository.GetAllAsync();
-            var poems = await _poemRepository.GetAllAsync();
+            var authors = await _authorRepository.GetAllAsync().ConfigureAwait(false);
+            var authorDict = authors.ToDictionary(a => a.AuthorId);
 
-            // Get junction table records 
-            var poems_authors = await _poem_authorRepository.GetAllAsync();
-            var poems_authorsList = poems_authors.ToList();
+            var poems = await _poemRepository.GetAllAsync().ConfigureAwait(false);
 
             var resultSet = new Poems_AuthorsJoinResultSet();
 
-            // Build result set 
-            poems_authorsList.ForEach(record =>
+            foreach (var record in (await _poem_authorRepository.GetAllAsync().ConfigureAwait(false)))
             {
-                var poemId = record.PoemId;
-
-                if (!resultSet.JoinResults.Any(result => result.Poem.PoemId == poemId))
+                if (!resultSet.JoinResults.TryGetValue(record.PoemId, out var result))
                 {
-                    // Get all authors for this poem and add to the result set
-                    var poems_authorsForPoem = poems_authorsList.Where(record => record.PoemId == poemId).Select(match => match.Author);
-                    resultSet.JoinResults.Add(new Poems_AuthorsJoinResult
+                    result = new Poems_AuthorsJoinResult
                     {
                         Poem = new Poem(record.Poem.PoemId, record.Poem.Title, record.Poem.Body, record.Poem.CreatedDate),
-                        Authors = poems_authorsForPoem.Select(pa => new Author(pa.AuthorId, pa.Name, pa.RegisteredDate))
-                    });
+                        Authors = new HashSet<Author>()
+                    };
+                    resultSet.JoinResults.Add(record.PoemId, result);
                 }
-            });
+                result.Authors.Add(authorDict[record.AuthorId]);
+            }
+
             return resultSet;
         }
     }
