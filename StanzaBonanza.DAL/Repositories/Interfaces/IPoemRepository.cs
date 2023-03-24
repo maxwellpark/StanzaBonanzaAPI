@@ -2,9 +2,8 @@
 
 namespace StanzaBonanza.DataAccess.Repositories.Interfaces
 {
-    public interface IPoemRepository
+    public interface IPoemRepository : IRepository<Poem>
     {
-        Task<Poem> GetByIdAsync(int id);
-        Task<IEnumerable<Poem>> GetAllAsync();
+
     }
 }

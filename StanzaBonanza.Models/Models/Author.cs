@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -6,6 +7,7 @@ namespace StanzaBonanza.Models.Models;
 
 public class Author
 {
+    //[Index("IX_Authors_Id")]
     [Required]
     [Key]
     public int AuthorId { get; set; }

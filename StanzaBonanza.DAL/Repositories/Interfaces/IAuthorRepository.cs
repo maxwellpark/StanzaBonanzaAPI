@@ -2,9 +2,8 @@
 
 namespace StanzaBonanza.DataAccess.Repositories.Interfaces
 {
-    public interface IAuthorRepository
+    public interface IAuthorRepository : IRepository<Author>
     {
-        Task<IEnumerable<Author>> GetAllAsync();
-        Task<Author> GetByIdAsync(int id);
+
     }
 }

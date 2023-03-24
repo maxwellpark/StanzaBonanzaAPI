@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using StanzaBonanza.DataAccess.Repositories.Interfaces;
+using StanzaBonanza.DataAccess.UnitOfWork;
+using StanzaBonanza.Models.Models;
 using StanzaBonanza.Models.ViewModels;
-using StanzaBonanza.Services.Interfaces;
 
 namespace StanzaBonanza.API.Controllers;
 
@@ -10,12 +10,12 @@ namespace StanzaBonanza.API.Controllers;
 public class PoemsController : ControllerBase
 {
     private readonly ILogger<PoemsController> _logger;
-    private readonly IPoemAuthorJoinService _authorPoemJoinService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public PoemsController(ILogger<PoemsController> logger, IPoemRepository poemRepository, IPoemAuthorJoinService authorPoemJoinService)
+    public PoemsController(ILogger<PoemsController> logger, IUnitOfWork unitOfWork)
     {
         _logger = logger;
-        _authorPoemJoinService = authorPoemJoinService ?? throw new ArgumentNullException(nameof(authorPoemJoinService));
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
     [HttpGet]
@@ -26,23 +26,14 @@ public class PoemsController : ControllerBase
         {
             _logger.LogInformation("Request received for poem by ID " + id);
 
-            var authorPoemsJoins = await _authorPoemJoinService.GetPoems_AuthorsJoinAsync();
-
-            if (authorPoemsJoins == null)
-                throw new NullReferenceException("Author-poem join result was null");
-
-            var targetResult = authorPoemsJoins?.FirstOrDefault(join => join?.Poem?.PoemId == id);
-
-            if (targetResult == null)
-                return new BadRequestObjectResult("Poem not found by ID " + id);
-
-            var poemViewModel = new PoemViewModel(targetResult);
-            return Ok(poemViewModel);
+            var poemsRepo = _unitOfWork.GetRepository<Poem>();
+            var poem = await poemsRepo.GetByIdAsync(id).ConfigureAwait(false);
+            return poem != null ? Ok(new PoemViewModel(poem)) : NotFound();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while getting poem by ID " + id);
-            return BadRequest(ex);
+            return Problem(ex.Message);
         }
     }
 
@@ -53,18 +44,14 @@ public class PoemsController : ControllerBase
         {
             _logger.LogInformation("Request received for poems");
 
-            var authorPoemsJoins = await _authorPoemJoinService.GetPoems_AuthorsJoinAsync();
-
-            if (authorPoemsJoins == null)
-                throw new NullReferenceException("Author-poem join result was null");
-
-            var poemsViewModel = new PoemsViewModel(authorPoemsJoins);
-            return Ok(poemsViewModel);
+            var poemsRepo = _unitOfWork.GetRepository<Poem>();
+            var poems = await poemsRepo.GetAllAsync().ConfigureAwait(false);
+            return poems.Any() ? Ok(new PoemsViewModel(poems)) : NotFound();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while getting poems");
-            return BadRequest(ex);
+            return Problem(ex.Message);
         }
     }
 }

@@ -22,12 +22,8 @@ namespace StanzaBonanza.API.Controllers
         {
             try
             {
-                var poemsAuthorsJoinResultSet = await _poemAuthorJoinService.GetPoems_AuthorsJoinResultSet();
-
-                if (!poemsAuthorsJoinResultSet.JoinResults.Any())
-                    return NotFound();
-
-                return Ok(poemsAuthorsJoinResultSet);
+                var joinResultSet = await _poemAuthorJoinService.GetPoems_AuthorsJoinResultSet();
+                return joinResultSet.JoinResults.Any() ? Ok(joinResultSet) : NotFound();
             }
             catch (Exception ex)
             {

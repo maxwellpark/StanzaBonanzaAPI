@@ -1,25 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StanzaBonanza.DataAccess.DbContexts;
-using StanzaBonanza.DataAccess.Repositories.Interfaces;
 using StanzaBonanza.Models.Models;
 
 namespace StanzaBonanza.DataAccess.Repositories
 {
-    public class PoemRepository : IPoemRepository
+    public class PoemRepository : Repository<Poem>
     {
         private readonly ApplicationDbContext _db;
 
-        public PoemRepository(ApplicationDbContext db)
+        public PoemRepository(ApplicationDbContext db) : base(db)
         {
             _db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
-        public async Task<Poem> GetByIdAsync(int id)
+        public override async Task<Poem> GetByIdAsync(int id)
         {
             return await _db.Poems.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Poem>> GetAllAsync()
+        public override async Task<IEnumerable<Poem>> GetAllAsync()
         {
             return await _db.Poems.ToListAsync();
         }

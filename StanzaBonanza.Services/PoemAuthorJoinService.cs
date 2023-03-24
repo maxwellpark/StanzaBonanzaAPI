@@ -1,4 +1,4 @@
-﻿using StanzaBonanza.DataAccess.Repositories.Interfaces;
+﻿using StanzaBonanza.DataAccess.UnitOfWork;
 using StanzaBonanza.Models.Models;
 using StanzaBonanza.Models.Results;
 using StanzaBonanza.Models.ResultSets;
@@ -8,21 +8,20 @@ namespace StanzaBonanza.Services
 {
     public class PoemAuthorJoinService : IPoemAuthorJoinService
     {
-        private readonly IAuthorRepository _authorRepository;
-        private readonly IPoemRepository _poemRepository;
-        private readonly IPoem_AuthorRepository _poem_authorRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PoemAuthorJoinService(IAuthorRepository authorRepository, IPoemRepository poemRepository, IPoem_AuthorRepository poem_authorRepository)
+        public PoemAuthorJoinService(IUnitOfWork unitOfWork)
         {
-            _authorRepository = authorRepository ?? throw new ArgumentNullException(nameof(authorRepository));
-            _poemRepository = poemRepository ?? throw new ArgumentNullException(nameof(poemRepository));
-            _poem_authorRepository = poem_authorRepository ?? throw new ArgumentNullException(nameof(poem_authorRepository));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         public async Task<IEnumerable<AuthorPoemJoinResult>> GetPoems_AuthorsJoinAsync()
         {
-            var authors = await _authorRepository.GetAllAsync().ConfigureAwait(false);
-            var poems = await _poemRepository.GetAllAsync().ConfigureAwait(false);
+            var authorsRepo = _unitOfWork.GetRepository<Author>();
+            var poemsRepo = _unitOfWork.GetRepository<Poem>();
+
+            var authors = await authorsRepo.GetAllAsync().ConfigureAwait(false);
+            var poems = await poemsRepo.GetAllAsync().ConfigureAwait(false);
 
             var join = authors
                 .Join(poems, author => author?.AuthorId, poem => poem?.AuthorCreatorId, (author, poem) => new AuthorPoemJoinResult
@@ -41,14 +40,19 @@ namespace StanzaBonanza.Services
         /// </summary>
         public async Task<Poems_AuthorsJoinResultSet> GetPoems_AuthorsJoinResultSet()
         {
-            var authors = await _authorRepository.GetAllAsync().ConfigureAwait(false);
+            var authorsRepo = _unitOfWork.GetRepository<Author>();
+            var authors = await authorsRepo.GetAllAsync().ConfigureAwait(false);
             var authorDict = authors.ToDictionary(a => a.AuthorId);
 
-            var poems = await _poemRepository.GetAllAsync().ConfigureAwait(false);
+            var poemsRepo = _unitOfWork.GetRepository<Poem>();
+            var poems = await poemsRepo.GetAllAsync().ConfigureAwait(false);
+
+            var poem_authorsRepo = _unitOfWork.GetRepository<Poem_Author>();
 
             var resultSet = new Poems_AuthorsJoinResultSet
             {
-                JoinResults = (await _poem_authorRepository.GetAllAsync().ConfigureAwait(false))
+                // Group junction entities by poem ID and create objects with each poem and its actors on 
+                JoinResults = (await poem_authorsRepo.GetAllAsync().ConfigureAwait(false))
                     .GroupBy(pa => pa.PoemId)
                     .Select(group => new Poems_AuthorsJoinResult
                     {
