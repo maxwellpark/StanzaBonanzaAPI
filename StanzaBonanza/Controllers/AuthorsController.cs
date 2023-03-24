@@ -31,7 +31,7 @@ public class AuthorsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while getting author by ID " + id);
-            return BadRequest(ex);
+            return Problem(ex.Message);
         }
     }
 
@@ -48,7 +48,7 @@ public class AuthorsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while getting authors");
-            return BadRequest(ex);
+            return Problem(ex.Message);
         }
     }
 }

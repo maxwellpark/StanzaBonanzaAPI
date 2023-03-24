@@ -15,25 +15,6 @@ namespace StanzaBonanza.Services
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public async Task<IEnumerable<AuthorPoemJoinResult>> GetPoems_AuthorsJoinAsync()
-        {
-            var authorsRepo = _unitOfWork.GetRepository<Author>();
-            var poemsRepo = _unitOfWork.GetRepository<Poem>();
-
-            var authors = await authorsRepo.GetAllAsync().ConfigureAwait(false);
-            var poems = await poemsRepo.GetAllAsync().ConfigureAwait(false);
-
-            var join = authors
-                .Join(poems, author => author?.AuthorId, poem => poem?.AuthorCreatorId, (author, poem) => new AuthorPoemJoinResult
-                {
-                    Author = author,
-                    Poem = poem
-                })
-                .ToList();
-
-            return join == null ? throw new NullReferenceException("Join returned null when joining Authors on Poems") : (IEnumerable<AuthorPoemJoinResult>)join;
-        }
-
         /// <summary>
         /// Gets all <see cref="Poem"/> records and all of their <see cref="Author"/>s for each result in the <see cref="Poems_AuthorsJoinResultSet"/>.
         /// Uses the Poems_Authors junction table.

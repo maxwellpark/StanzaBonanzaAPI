@@ -14,7 +14,8 @@ namespace StanzaBonanza.API.Filters
                 Name = "X-API-Key",
                 In = ParameterLocation.Header,
                 Required = false,
-                Schema = new OpenApiSchema { Type = "string" }
+                Schema = new OpenApiSchema { Type = "string" },
+                Description = "Authenticates a request. Not required when running locally."
             });
         }
     }

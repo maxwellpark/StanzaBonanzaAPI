@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StanzaBonanza.Models", "Sta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StanzaBonanza.DataAccess", "StanzaBonanza.DAL\StanzaBonanza.DataAccess.csproj", "{0BC3E121-BB35-4C0E-98B4-9753FCE9A883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StanzaBonanza.Services", "StanzaBonanza.Services\StanzaBonanza.Services.csproj", "{73B7465A-7242-4859-9FD7-E337F67B5A28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StanzaBonanza.Services", "StanzaBonanza.Services\StanzaBonanza.Services.csproj", "{73B7465A-7242-4859-9FD7-E337F67B5A28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StanzaBonanza.Tests", "StanzaBonanza.Tests\StanzaBonanza.Tests.csproj", "{CD54A3F5-F14D-4C80-BBEE-44BF31ECA818}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{73B7465A-7242-4859-9FD7-E337F67B5A28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73B7465A-7242-4859-9FD7-E337F67B5A28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73B7465A-7242-4859-9FD7-E337F67B5A28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD54A3F5-F14D-4C80-BBEE-44BF31ECA818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD54A3F5-F14D-4C80-BBEE-44BF31ECA818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD54A3F5-F14D-4C80-BBEE-44BF31ECA818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD54A3F5-F14D-4C80-BBEE-44BF31ECA818}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
