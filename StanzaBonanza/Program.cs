@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using StanzaBonanza.API.Filters;
 using StanzaBonanza.DataAccess.DbContexts;
 using StanzaBonanza.DataAccess.Repositories;
@@ -22,7 +23,11 @@ builder.Services.AddScoped<IPoemAuthorJoinService, PoemAuthorJoinService>();
 builder.Services.AddControllers(options => options.Filters.Add<ApiKeyAttribute>());
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Stanza Bonanza", Version = "v1" });
+    c.OperationFilter<ApiKeyOperationFilter>();
+});
 
 var app = builder.Build();
 
