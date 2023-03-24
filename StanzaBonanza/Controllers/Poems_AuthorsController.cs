@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StanzaBonanza.Models.ResultSets;
 using StanzaBonanza.Services.Interfaces;
 
 namespace StanzaBonanza.API.Controllers
@@ -17,17 +18,21 @@ namespace StanzaBonanza.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPoems_AuthorsAsync()
+        public async Task<ActionResult<Poems_AuthorsJoinResultSet>> GetPoems_AuthorsAsync()
         {
             try
             {
                 var poemsAuthorsJoinResultSet = await _poemAuthorJoinService.GetPoems_AuthorsJoinResultSet();
+
+                if (!poemsAuthorsJoinResultSet.JoinResults.Any())
+                    return NotFound();
+
                 return Ok(poemsAuthorsJoinResultSet);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred");
-                return BadRequest(ex);
+                return Problem(ex.Message);
             }
         }
     }
