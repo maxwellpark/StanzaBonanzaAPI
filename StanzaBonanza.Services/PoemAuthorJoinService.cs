@@ -32,10 +32,7 @@ namespace StanzaBonanza.Services
                 })
                 .ToList();
 
-            if (join == null)
-                throw new NullReferenceException("Join returned null when joining Authors on Poems");
-
-            return join;
+            return join == null ? throw new NullReferenceException("Join returned null when joining Authors on Poems") : (IEnumerable<AuthorPoemJoinResult>)join;
         }
 
         /// <summary>
@@ -49,21 +46,17 @@ namespace StanzaBonanza.Services
 
             var poems = await _poemRepository.GetAllAsync().ConfigureAwait(false);
 
-            var resultSet = new Poems_AuthorsJoinResultSet();
-
-            foreach (var record in (await _poem_authorRepository.GetAllAsync().ConfigureAwait(false)))
+            var resultSet = new Poems_AuthorsJoinResultSet
             {
-                if (!resultSet.JoinResults.TryGetValue(record.PoemId, out var result))
-                {
-                    result = new Poems_AuthorsJoinResult
+                JoinResults = (await _poem_authorRepository.GetAllAsync().ConfigureAwait(false))
+                    .GroupBy(pa => pa.PoemId)
+                    .Select(group => new Poems_AuthorsJoinResult
                     {
-                        Poem = new Poem(record.Poem.PoemId, record.Poem.Title, record.Poem.Body, record.Poem.CreatedDate),
-                        Authors = new HashSet<Author>()
-                    };
-                    resultSet.JoinResults.Add(record.PoemId, result);
-                }
-                result.Authors.Add(authorDict[record.AuthorId]);
-            }
+                        Poem = new Poem(group.First().Poem.PoemId, group.First().Poem.Title, group.First().Poem.Body, group.First().Poem.CreatedDate),
+                        Authors = new HashSet<Author>(group.Select(pa => authorDict[pa.AuthorId]))
+                    })
+                    .ToArray()
+            };
 
             return resultSet;
         }
