@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using StanzaBonanza.Models.Models;
+using System.Text.Json.Serialization;
 
 namespace StanzaBonanza.Dtos.PoemDto
 {
@@ -12,5 +13,16 @@ namespace StanzaBonanza.Dtos.PoemDto
 
         [JsonPropertyName("body")]
         public string Body { get; set; }
+
+        public PoemDto()
+        {
+        }
+
+        public PoemDto(Poem poem)
+        {
+            AuthorId = poem.AuthorCreatorId;
+            Title = poem.Title;
+            Body = poem.Body;
+        }
     }
 }

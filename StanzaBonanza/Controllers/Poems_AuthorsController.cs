@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StanzaBonanza.Dtos.PoemDto;
+using StanzaBonanza.Models.Models;
 using StanzaBonanza.Models.ResultSets;
 using StanzaBonanza.Services.Interfaces;
 
@@ -29,6 +31,24 @@ namespace StanzaBonanza.API.Controllers
             {
                 _logger.LogError(ex, "An error occurred");
                 return Problem(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Poem>> AddPoemAsync([FromBody] PoemDto poemDto)
+        {
+            try
+            {
+                var poem = await _poemAuthorService.AddPoemAsync(poemDto);
+                //return CreatedAtAction(nameof(GetPoems_AuthorsAsync), new PoemDto(poem), poemDto);
+                return Ok(poem);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to add poem");
+                return BadRequest();
             }
         }
     }

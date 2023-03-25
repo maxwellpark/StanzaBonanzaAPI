@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using StanzaBonanza.DataAccess.DbContexts;
 using StanzaBonanza.DataAccess.Factories;
 using StanzaBonanza.DataAccess.Repositories.Interfaces;
@@ -49,37 +51,41 @@ namespace StanzaBonanza.DataAccess.UnitOfWork
 
         public async Task<Poem> AddPoemAsync(Poem poem)
         {
-            using (var scope = new TransactionScope(
-                TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
+            using var scope = new TransactionScope(
+                TransactionScopeOption.Required, new TransactionOptions
+                {
+                    IsolationLevel = IsolationLevel.ReadCommitted,
+                }, TransactionScopeAsyncFlowOption.Enabled);
+
+            try
             {
-                try
-                {
-                    // Add poem 
-                    await PoemRepository.AddAsync(poem).ConfigureAwait(false);
-                    await SaveChangesAsync();
+                // Make sure all repositories use the same db connection 
+                using var sqlConnection = (SqlConnection)_context.Database.GetDbConnection();
+                await sqlConnection.OpenAsync();
 
-                    // Get the poem's author 
-                    var author = await AuthorRepository.GetByIdAsync(poem.AuthorCreatorId).ConfigureAwait(false);
-                    await SaveChangesAsync();
+                // Add poem 
+                await PoemRepository.AddAsync(poem);
+                await SaveChangesAsync();
 
-                    // Add junction table entity between the two 
-                    var poemAuthorRepo = GetRepository<Poem_Author>();
-                    var poemAuthor = new Poem_Author(poem, author);
-                    await poemAuthorRepo.AddAsync(poemAuthor).ConfigureAwait(false);
-                    await SaveChangesAsync();
+                // Get the poem's author 
+                var author = await AuthorRepository.GetByIdAsync(poem.AuthorCreatorId);
 
-                    // Commit the transaction
-                    scope.Complete();
-                    return poem;
-                }
-                catch (Exception ex)
-                {
-                    // Handle any exceptions that occur during the transaction
-                    _logger.LogError(ex, "Error occurred during transaction scope when adding poem and author.");
-                    return null;
+                // Add junction table entity between the two 
+                var poemAuthor = new Poem_Author(poem.PoemId, author.AuthorId);
+                await Poem_AuthorRepository.AddAsync(poemAuthor);
+                await SaveChangesAsync();
 
-                    // The transaction will be automatically rolled back if Complete is not called
-                }
+                // Commit the transaction
+                scope.Complete();
+                return poem;
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during the transaction
+                _logger.LogError(ex, "Error occurred during transaction scope when adding poem and author.");
+                return null;
+
+                // The transaction will be automatically rolled back if Complete is not called
             }
         }
     }
