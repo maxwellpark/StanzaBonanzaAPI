@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using StanzaBonanza.Dtos.PoemDto;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -43,5 +43,13 @@ public class Poem
         Title = title;
         Body = body;
         CreatedDate = createdDate;
+    }
+
+    public Poem(PoemDto dto)
+    {
+        Title = dto.Title;
+        Body = dto.Body;
+        AuthorCreatorId = dto.AuthorId;
+        CreatedDate = DateTime.Now;
     }
 }

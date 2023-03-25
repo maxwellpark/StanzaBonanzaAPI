@@ -18,9 +18,14 @@ namespace StanzaBonanza.DataAccess.Repositories
             return await _db.Poems_Authors.ToListAsync();
         }
 
-        public override Task<Poem_Author> GetByIdAsync(int id)
+        public override async Task<Poem_Author> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _db.Poems_Authors.FirstOrDefaultAsync(pa => pa.Poem_AuthorId == id);
+        }
+
+        public override async Task AddAsync(Poem_Author entity)
+        {
+            await DbSet.AddAsync(entity);
         }
     }
 }

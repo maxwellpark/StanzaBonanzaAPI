@@ -1,10 +1,12 @@
 ﻿using StanzaBonanza.DataAccess.Repositories.Interfaces;
+using StanzaBonanza.Models.Models;
 
 namespace StanzaBonanza.DataAccess.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
-        void SaveChanges();
+        Task SaveChangesAsync();
+        Task<Poem> AddPoemAsync(Poem poem);
     }
 }

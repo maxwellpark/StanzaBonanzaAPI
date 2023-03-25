@@ -17,5 +17,6 @@ namespace StanzaBonanza.DataAccess.Repositories
 
         public abstract Task<IEnumerable<TEntity>> GetAllAsync();
         public abstract Task<TEntity> GetByIdAsync(int id);
+        public abstract Task AddAsync(TEntity entity);
     }
 }

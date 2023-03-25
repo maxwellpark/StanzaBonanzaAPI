@@ -2,21 +2,18 @@ using Moq;
 using StanzaBonanza.DataAccess.UnitOfWork;
 using StanzaBonanza.Models.Models;
 using StanzaBonanza.Services;
-using StanzaBonanza.Services.Interfaces;
 
 namespace StanzaBonanza.Tests
 {
     [TestFixture]
-    public class PoemAuthorJoinServiceTests
+    public class Poem_AuthorServiceTests
     {
         private Mock<IUnitOfWork> _unitOfWorkMock;
-        private IPoemAuthorJoinService _service;
 
         [SetUp]
         public void SetUp()
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _service = new PoemAuthorJoinService(_unitOfWorkMock.Object);
         }
 
         [Test]
@@ -45,7 +42,7 @@ namespace StanzaBonanza.Tests
             _unitOfWorkMock.Setup(uow => uow.GetRepository<Poem>().GetAllAsync()).ReturnsAsync(poems);
             _unitOfWorkMock.Setup(uow => uow.GetRepository<Poem_Author>().GetAllAsync()).ReturnsAsync(poem_authors);
 
-            var service = new PoemAuthorJoinService(_unitOfWorkMock.Object);
+            var service = new Poem_AuthorService(_unitOfWorkMock.Object);
 
             // Act
             var result = await service.GetPoems_AuthorsJoinResultSet();

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StanzaBonanza.DAL\StanzaBonanza.DataAccess.csproj" />
+    <ProjectReference Include="..\StanzaBonanza.DataAccess\StanzaBonanza.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

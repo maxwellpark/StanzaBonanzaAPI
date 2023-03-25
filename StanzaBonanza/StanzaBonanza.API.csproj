@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StanzaBonanza.DAL\StanzaBonanza.DataAccess.csproj" />
+    <ProjectReference Include="..\StanzaBonanza.DataAccess\StanzaBonanza.DataAccess.csproj" />
     <ProjectReference Include="..\StanzaBonanza.Services\StanzaBonanza.Services.csproj" />
   </ItemGroup>
 

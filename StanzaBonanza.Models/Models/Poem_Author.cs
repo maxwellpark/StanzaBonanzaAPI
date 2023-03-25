@@ -16,5 +16,19 @@ namespace StanzaBonanza.Models.Models
         public Poem Poem { get; set; }
         public int AuthorId { get; set; }
         public Author Author { get; set; }
+
+        public Poem_Author()
+        {
+        }
+
+        public Poem_Author(Poem poem, Author author) : this(poem.PoemId, author.AuthorId)
+        {
+        }
+
+        public Poem_Author(int poemId, int authorId)
+        {
+            PoemId = poemId;
+            AuthorId = authorId;
+        }
     }
 }

@@ -14,7 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 
 builder.Services.AddLogging();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IPoemAuthorJoinService, PoemAuthorJoinService>();
+builder.Services.AddScoped<IPoem_AuthorService, Poem_AuthorService>();
 
 // Add API Key authentication via filter but bypass when not in production 
 if (builder.Environment.IsProduction())

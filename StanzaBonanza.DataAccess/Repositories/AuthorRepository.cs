@@ -22,5 +22,10 @@ namespace StanzaBonanza.DataAccess.Repositories
         {
             return await _db.Authors.ToListAsync();
         }
+
+        public override async Task AddAsync(Author entity)
+        {
+            await DbSet.AddAsync(entity);
+        }
     }
 }

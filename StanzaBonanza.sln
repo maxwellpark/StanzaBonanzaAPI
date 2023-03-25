@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StanzaBonanza.API", "Stanza
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StanzaBonanza.Models", "StanzaBonanza.Models\StanzaBonanza.Models.csproj", "{26C5B51D-0DCE-4616-9F6C-EE743C48F661}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StanzaBonanza.DataAccess", "StanzaBonanza.DAL\StanzaBonanza.DataAccess.csproj", "{0BC3E121-BB35-4C0E-98B4-9753FCE9A883}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StanzaBonanza.DataAccess", "StanzaBonanza.DataAccess\StanzaBonanza.DataAccess.csproj", "{0BC3E121-BB35-4C0E-98B4-9753FCE9A883}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StanzaBonanza.Services", "StanzaBonanza.Services\StanzaBonanza.Services.csproj", "{73B7465A-7242-4859-9FD7-E337F67B5A28}"
 EndProject

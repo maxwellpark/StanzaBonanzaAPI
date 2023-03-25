@@ -1,16 +1,18 @@
 ﻿using StanzaBonanza.DataAccess.UnitOfWork;
+using StanzaBonanza.Dtos.PoemDto;
 using StanzaBonanza.Models.Models;
 using StanzaBonanza.Models.Results;
 using StanzaBonanza.Models.ResultSets;
+using StanzaBonanza.Services.Exceptions;
 using StanzaBonanza.Services.Interfaces;
 
 namespace StanzaBonanza.Services
 {
-    public class PoemAuthorJoinService : IPoemAuthorJoinService
+    public class Poem_AuthorService : IPoem_AuthorService
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public PoemAuthorJoinService(IUnitOfWork unitOfWork)
+        public Poem_AuthorService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
@@ -44,6 +46,17 @@ namespace StanzaBonanza.Services
             };
 
             return resultSet;
+        }
+
+        public async Task<Poem> AddPoemAsync(PoemDto poemDto)
+        {
+            var poem = new Poem(poemDto);
+            poem = await _unitOfWork.AddPoemAsync(poem);
+
+            if (poem == null)
+                throw new PoemAndAuthorCreateFailedException("Failed to create poem.");
+
+            return poem;
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using StanzaBonanza.Models.Results;
-using StanzaBonanza.Models.ResultSets;
+﻿using StanzaBonanza.Models.ResultSets;
 
 namespace StanzaBonanza.Services.Interfaces
 {
-    public interface IPoemAuthorJoinService
+    public interface IPoem_AuthorService
     {
         Task<Poems_AuthorsJoinResultSet> GetPoems_AuthorsJoinResultSet();
     }
